@@ -1,0 +1,21 @@
+{
+    "pickup_pos_open":{
+        "x":0,
+        "y":0,
+        "z":-18,
+        "rx":-90,
+        "ry":0,
+        "rz":0,
+        "open":true
+    },
+    "pickup_pos_closed":{
+        "x":0,
+        "y":0,
+        "z":-18,
+        "rx":-90,
+        "ry":0,
+        "rz":0,
+        "open":false
+    }
+    
+}
