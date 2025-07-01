@@ -189,4 +189,7 @@ Available Voice/Text Commands:
 - "Help" → Show this list
 - "Exit/Stop/Terminate" → End session
 - "Show joint positions/joints/joint" -> display current joint positions
+- "Pick and Place from coordinates" -> specify absolute coordinates for pick and place function, 
+    both can also be used individually.
+- "Pick and Place from preset A to preset B" -> performs pick and place function from one preset position to another
               """)
