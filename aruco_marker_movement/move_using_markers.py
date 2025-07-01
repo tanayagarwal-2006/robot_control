@@ -42,8 +42,6 @@ def user_def_inputs():
 
 def on_marker_detected(marker_id,status_holder=None):
     marker_id=str(marker_id)
-    #rbm.pick_up_object_gripper_open()
-    #time.sleep(0.5)
     if status_holder is not None:
         status_holder["status"]="Picking up object"
     rbm.pick_up_object_gripper_closed()
