@@ -133,6 +133,27 @@ while True:
             )
             time.sleep(1.5)
 
+    if 'Adjust position' in movement_data and movement_data['Adjust position']:
+        for step,pos in movement_data['Adjust position'].items():
+            pos_x=pos['x']
+            pos_y=pos['y']
+            pos_z=pos['z']
+            angular_pos_x=pos['rx']
+            angular_pos_y=pos['ry']
+            angular_pos_z=pos['rz']
+            gripper_position=pos['gripper_position']
+
+            rbm.move_relative(
+                pos_x,
+                pos_y,
+                pos_z,
+                angular_pos_x,
+                angular_pos_y,
+                angular_pos_z,
+                gripper_position
+            )
+            time.sleep(1.5)
+
     if 'Rotate' in movement_data and movement_data['Rotate']:
         joint_movement_data=[
             (v['joint_id'],v['rotation'])
