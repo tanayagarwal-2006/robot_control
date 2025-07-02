@@ -83,6 +83,18 @@ If the user tells to grab something, open the gripper i.e. set gripper position 
 the other parameters same. You can label them as "1" and "2" like you do with multiple move end-effector commands but only change
 the gripper position, nothing else.
 
+- Adjust position: if adjust position is called, put the data in this key. Follow the same format as given in 
+"Move end-effector to position". Give only the values given by the user in this key. Do NOT add them to the values stored
+in "Move end-effector to position"
+If the user says to move forward by X, put 'x' as X in the key while keeping rest of the parameters as 0.0.
+If the user says to move back by X, put 'x' as -X in the key while keeping rest of the parameters as 0.0.
+If the user says to move left by Y, put 'y' as Y in the key while keeping rest of the parameters as 0.0.
+If the user says to move right by Y, put 'y' as _Y in the key while keeping rest of the parameters as 0.0.
+If the user says to move up by Z, put 'z' as Z in the key while keeping rest of the parameters as 0.0.
+If the user says to move down by Z, put 'z' as -Z in the key while keeping rest of the parameters as 0.0.
+If two commands reagarding adjustment are called back to back, put them in a single 'Adjust position' dictionary 
+with keys "1","2","3" etc. If only a single command is passed in the move end-effector, the key should always be 1.
+
 -Gripper state: either opening or closing the gripper, return True for open and False for close.
 Return None for gripper state if it is not explicitly called
 
