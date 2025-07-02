@@ -35,7 +35,6 @@ def user_def_inputs():
             rx = float(input("rx: "))
             ry = float(input("ry: "))
             rz = float(input("rz: "))
-            #gripper = input("Gripper open? (yes/no): ").strip().lower() == "yes"
             rbm.create_marker_preset(marker_id, x, y, z, rx, ry, rz)
         except ValueError:
             print("Invalid input. Try again.")
@@ -67,7 +66,6 @@ if __name__=="__main__":
     stream_url="http://127.0.0.1:80/video/0"
     rbm.robot_init()
     time.sleep(1)
-    #rbm.starting_position()
     rbm.pick_up_object_gripper_open()
     user_def_inputs()
     status_holder={"status":"idle"}
