@@ -91,7 +91,20 @@ def move_end_to_pos(pos_x,pos_y,pos_z,angular_pos_x,angular_pos_y,angular_pos_z,
         "rz":angular_pos_z,
         "open":gripper_position
     })
+    global last_written_angles
+    last_written_angles=read_joints()
 
+#Move relative to previous position
+def move_relative(pos_x,pos_y,pos_z,angular_pos_x,angular_pos_y,angular_pos_z,gripper_position):
+    movement_api("relative",{
+        "x":pos_x,
+        "y":pos_y,
+        "z":pos_z,
+        "rx":angular_pos_x,
+        "ry":angular_pos_y,
+        "rz":angular_pos_z,
+        "open":gripper_position
+    })
     global last_written_angles
     last_written_angles=read_joints()
 
