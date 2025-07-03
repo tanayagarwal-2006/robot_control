@@ -93,7 +93,9 @@ If the user says to move right by Y, put 'y' as _Y in the key while keeping rest
 If the user says to move up by Z, put 'z' as Z in the key while keeping rest of the parameters as 0.0.
 If the user says to move down by Z, put 'z' as -Z in the key while keeping rest of the parameters as 0.0.
 If two commands reagarding adjustment are called back to back, put them in a single 'Adjust position' dictionary 
-with keys "1","2","3" etc. If only a single command is passed in the move end-effector, the key should always be 1.
+with keys "1","2","3" etc. If only a single command is passed in the adjust position, the key should always be 1.
+If the user is saying to move up,down,forward,back,right,left, put the data in "Adjust position only". Do NOT put
+it in "Move end-effector to position" under any circumstances.
 
 -Gripper state: either opening or closing the gripper, return True for open and False for close.
 Return None for gripper state if it is not explicitly called
