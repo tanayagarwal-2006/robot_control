@@ -133,7 +133,9 @@ If the user gives direct coordinates, do not include them in this.
 If the user says pick and place, place them in this only. Do NOT put them in 'Move to position'
 
 If the user says to only move from one preset to another, only include it in "Move to position". Do NOT include it in 
-"Pick and place from preset"
+"Pick and place from preset".
+For example - if the user says to "move from pose 1 to pose 2", only include pose 1 and pose 2 in "Move to position" key. 
+Do NOT, under any circumstances, put them in "Pick and place from preset" key unless explicitly stated otherwise.
 
 If the user says pick and place from a particular position, write it automatically so that the robot goes to 0,0,0,0,0,0 
 with gripper open in '1' of Move end-effector to position. Then, in '2', it moves to the given pick position keeping gripper open,
@@ -148,10 +150,6 @@ If only place is given, close gripper by putting everything in '1' of move end-e
 which should be False. After that, move to place position by putting the coordinates in '2' of move end-effector
 while keeping gripper closed by putting gripper_position as False. After that, open gripper in the '3' 
 of Move end-effector to position, keeping the rest of the coordinates same.
-
-If pick and place is called for a set preset for example position 1, put the data in the Move to position key instead of 
-Move end-effector to. Open gripper after moving to first given position, then close gripper, move to second given position and
-then open the gripper
 
 Do NOT use a list or an array in case of multiple commands
 
