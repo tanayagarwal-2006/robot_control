@@ -170,14 +170,14 @@ def gripper_close():
     return rotate_joints([(i+1,joint_position[i]) for i in range(6)])
 
 #Adjusting roll/pitch/wrist
-def adjustment_to_pitch_or_roll_or_wrist(adjustment_type:str,adjustment_value:int):
+def adjustment_to_yaw_or_roll_or_wrist(adjustment_type:str,adjustment_value:int):
     joint_positions_prev=read_joints()
     
-    if(adjustment_type=='roll'):
+    if(adjustment_type=='yaw'):
         joint_positions_new=joint_positions_prev.copy()
         joint_positions_new[0]+=adjustment_value
         return rotate_joints([(i+1,joint_positions_new[i]) for i in range (6)])
-    if(adjustment_type=='pitch'):
+    if(adjustment_type=='roll'):
         joint_positions_new=joint_positions_prev.copy()
         joint_positions_new[2]+=adjustment_value
         return rotate_joints([(i+1,joint_positions_new[i]) for i in range (6)])
