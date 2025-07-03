@@ -54,12 +54,12 @@ If there a rotate wrist command, rotate joint 5 by X degrees.
 If there is a command to open gripper by X degrees, rotate joint 6 by X degrees.
 
 - Adjustments:
-If there is a command to rotate about z-axis by X degrees or to change roll by X degrees, rotate joint 1 by X degrees
-If there is a command to rotate about x-axis by X degrees or to change pitch by X degrees, rotate joint 3 by X degrees
+If there is a command to rotate about z-axis by X degrees or to change yaw by X degrees, rotate joint 1 by X degrees
+If there is a command to rotate about x-axis by X degrees or to change roll by X degrees, rotate joint 3 by X degrees
 If there is a command to rotate wrist by X degrees, rotate joint 5 by X degrees
 The format should be:
 {{
-    "type": roll/pitch/wrist,
+    "type": yaw/roll/wrist,
     "rotation": rotation in degrees
 }}
 
@@ -131,6 +131,9 @@ If the user calls pick and place from one position to another, add them sequenti
 eg. 1:"position 1",2:"position 2" and so on.
 If the user gives direct coordinates, do not include them in this.
 If the user says pick and place, place them in this only. Do NOT put them in 'Move to position'
+
+If the user says to only move from one preset to another, only include it in "Move to position". Do NOT include it in 
+"Pick and place from preset"
 
 If the user says pick and place from a particular position, write it automatically so that the robot goes to 0,0,0,0,0,0 
 with gripper open in '1' of Move end-effector to position. Then, in '2', it moves to the given pick position keeping gripper open,
