@@ -164,7 +164,7 @@ while True:
     if "Adjustments" in movement_data and movement_data["Adjustments"]:
         type_of_adjustment=movement_data['Adjustments']['type']
         measure_of_adjustment=movement_data['Adjustments']['rotation']
-        rbm.adjustment_to_pitch_or_roll_or_wrist(type_of_adjustment,measure_of_adjustment)
+        rbm.adjustment_to_yaw_or_roll_or_wrist(type_of_adjustment,measure_of_adjustment)
 
     if "Adjust by joint" in movement_data and movement_data["Adjust by joint"]:
         joint_to_be_adjusted=movement_data['Adjust by joint']['joint_id']
