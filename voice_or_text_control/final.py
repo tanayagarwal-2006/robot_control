@@ -122,16 +122,35 @@ while True:
             angular_pos_z=pos['rz']
             gripper_position=pos['gripper_position']
 
-            rbm.move_end_to_pos(
-                pos_x,
-                pos_y,
-                pos_z,
-                angular_pos_x,
-                angular_pos_y,
-                angular_pos_z,
-                gripper_position
-            )
-            time.sleep(1.5)
+            if pos['rx']==-90:
+                angular_pos_z=0
+                rbm.move_end_to_pos(
+                    pos_x,
+                    pos_y,
+                    pos_z,
+                    angular_pos_x,
+                    angular_pos_y,
+                    angular_pos_z,
+                    gripper_position 
+                )
+                time.sleep(0.5)
+                current_angles=rbm.read_joints()
+                print(current_angles)
+                current_angles[0]=pos['rz']
+                print(current_angles)
+                rbm.rotate_joints([(i+1,current_angles[i]) for i in range (6)])
+                
+            else:
+                rbm.move_end_to_pos(
+                    pos_x,
+                    pos_y,
+                    pos_z,
+                    angular_pos_x,
+                    angular_pos_y,
+                    angular_pos_z,
+                    gripper_position
+                )
+                time.sleep(1.5)
 
     if 'Adjust position' in movement_data and movement_data['Adjust position']:
         for step,pos in movement_data['Adjust position'].items():
