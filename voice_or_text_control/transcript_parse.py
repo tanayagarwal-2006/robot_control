@@ -27,12 +27,10 @@ Return the extracted data in the form of a usable python dictionary with followi
         "gripper_pos": gripper_pos
     }}
 
--Move to position:
+-Move to preset position:
 {{
         "name":name of preset moving to
-        "x":x,"y":y,"z":z,
-        "rx":0,"ry":0,"rz":0,
-        "open":gripper_position
+        
     }}
 When moving to a preset:
 - If x/y/z are not mentioned, use values from the preset.
