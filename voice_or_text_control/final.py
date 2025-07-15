@@ -97,12 +97,12 @@ while True:
             if name_of_preset is not None:
                 rbm.delete_preset(name_of_preset)
 
-    if 'Move to position' in movement_data and movement_data['Move to position']:
+    if 'Move to preset position' in movement_data and movement_data['Move to preset position']:
         if os.path.exists("presets.pkl"):
             with open("presets.pkl","rb") as file:
                 saved_presets=pickle.load(file)
 
-        for _, preset_data in movement_data['Move to position'].items():
+        for _, preset_data in movement_data['Move to preset position'].items():
             preset_name=preset_data.get("name")
             if preset_name and preset_name in saved_presets:
                 print(f"[DEBUG] Moving to : {preset_name}")
