@@ -97,6 +97,11 @@ while True:
             if name_of_preset is not None:
                 rbm.delete_preset(name_of_preset)
 
+    if 'delete_sequences' in movement_data and movement_data['deleted_sequences']:
+        for name_of_sequence in movement_data['deleted_sequences'].values():
+            if name_of_sequence is not None:
+                rbm.delete_sequence(name_of_sequence)
+
     if 'Move to preset position' in movement_data and movement_data['Move to preset position']:
         if os.path.exists("presets.pkl"):
             with open("presets.pkl","rb") as file:
@@ -196,6 +201,28 @@ while True:
         measure_of_adjustment=movement_data['Adjust by joint']['adjustment']
         rbm.adjustment_to_joint(joint_to_be_adjusted,measure_of_adjustment)
 
+    if "Save sequence" in movement_data and movement_data["Save sequence"]:
+        for key,values in movement_data['Save sequence'].items():
+            seq_name=values.get("name")
+            del values['name']
+            seq_data=values
+            rbm.create_new_sequences(seq_name,seq_data)
+
+    if "Execute sequence" in movement_data and movement_data['Execute sequence']:
+        if os.path.exists("sequences.pkl"):
+            with open("sequences.pkl","rb") as file:
+                saved_sequences=pickle.load(file)
+
+            for _, sequence_data in movement_data['Execute sequence'].items():
+                sequence_name=sequence_data.get("name")
+                if sequence_name and sequence_name in saved_sequences:
+                    print(f"[DEBUG] Initiating : {sequence_name}")
+                    rbm.initiate_sequence(sequence_name)
+                else:
+                    print(f"[WARNING] {sequence_name} not found")
+
+                time.sleep(2)
+
     if movement_data['Gripper state']==True:
         rbm.gripper_open()
 
@@ -219,6 +246,11 @@ while True:
         print(rbm.read_joints())
         continue
 
+    if "show sequences" in transcript or "display sequences" in transcript:
+        with open("sequences.pkl","rb") as file:
+            sequences_saved=pickle.load(file)
+        print(sequences_saved)
+
     if "help" in transcript:
         print("""
 Available Voice/Text Commands:
@@ -238,4 +270,7 @@ Available Voice/Text Commands:
 - "Pick and Place from coordinates" -> specify absolute coordinates for pick and place function, 
     both can also be used individually.
 - "Pick and Place from preset A to preset B" -> performs pick and place function from one preset position to another
+- "Save sequences" -> enables one to save complex multi-step commands as sequences.
+- "Execute sequences" -> execute saved sequences.
+- "delete sequences" -> delete saved sequences.
               """)
