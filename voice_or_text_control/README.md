@@ -32,3 +32,9 @@ Uses Whisper run locally to transcribe speech to text and Gemini to parse throug
 - "Show joint positions/joints/joint" -> display current joint positions
 - "Pick and Place from coordinates" -> specify absolute coordinates for pick and place function, both can also be used individually.
 - "Pick and Place from preset A to preset B" -> performs pick and place function from one preset position to another, saved in pickle file.
+- Sequences - the system has the ability to store and execute complex, multi-step commands in the form of "sequences".
+  This feature is ideal for repeated tasks which require a higher degree of control of the robot position in terms of both cartesian coordinates and joint angles,
+  which might not be achievable with just cartesian movements. The specific commands under this are:-
+  - Save sequences
+  - Execute sequences
+  - delete sequences
