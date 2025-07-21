@@ -126,6 +126,62 @@ where the keys are the preset names (e.g., "position-1", "position-2"), and the 
   "gripper_pos": bool
 }}
 
+- deleted_sequences
+If there a sequences, suppose sequence X which is to be deleted, give an output in the form of string "{{name of sequence}}",
+If multiple sequences are being deleted, show both their names so that the first sequence to be deleted is labelled as 1 in the dict,
+the second is labelled 2, and so on.
+If only one delete command is given, label it 1 regardless of the number of commands given, like this:
+{{{{'deleted_sequences': {{'1': 'sequence-1'}}}}}},
+
+If user gives a command such as "move to X,Y,Z. mark this as position X.", create a new preset and also 
+include these coordinates in the move to preset section.
+
+Return the extracted data as a single, flat Python dictionary. 
+If there are multiple preset commands, include them inside a single "Preset" dictionary, 
+where the keys are the preset names (e.g., "position-1", "position-2"), and the values are dictionaries with the structure:
+{{
+  "x": float,
+  "y": float,
+  "z": float,
+  "rx": float,
+  "ry": float,
+  "rz": float,
+  "gripper_pos": bool
+}}
+
+-Save sequence
+ If the user gives a command like “save a sequence/create sequence where the robot moves to position 1, rotates joint 3 by 30 degrees, 
+ and closes the gripper”, extract the actions and group them under a "Save sequence" key.
+ 
+ Rules:
+ - The top-level key is always "Save sequence".
+ - Each saved sequence must be stored under a numerical key: "1", "2", "3", etc. Do not use "sequence-1" or similar.
+  - If only one sequence is created, put is under sub key "1" anyway
+ - Each sequence must include:
+   - "name": The name of the sequence, based on user input (e.g., "test-seq"). If not provided, use "unnamed".
+   -  Ordered by string keys "1", "2", etc., with each value being an action.
+ 
+ Supported action formats:
+ - "move_to": {{ "preset": "pose_1" }}
+ - "move_end_effector": {{ "x": float, "y": float, "z": float, "rx": float|null, "ry": float|null, "rz": float|null, "gripper_position": true|false }}
+ - "rotate_joint": {{ "joint_id": int, "rotation": float }}
+ - "adjust_by_joint": {{ "joint_id": int, "adjustment": float }}
+ - "gripper": True or False (True for open and False for close)
+
+- Execute sequence
+If the user calls for the execution/initiation of a particular sequence, output in this format
+{{
+        "name":name of sequence being executed
+        
+    }}
+-- If there are multiple sequences and execution is requested of both sequentially, output in the form where the sequence of which
+movement has been requested first has the key 1, the second sequence of which movement has been requested has key 2 etc. If movement
+to only 1 sequence has been requested, keep key 1
+
+If only execute/initiate is given by the user, do NOT include the sequence name in the key 'Save Sequence' in any way.
+For example - "Initiate sequence named sequence-1"
+Include the name "sequence-1" in the key "Execute sequence", leave key "Save sequence" empty.
+
 - Pick and place from preset:
 If the user calls pick and place from one position to another, add them sequentially in this
 eg. 1:"position 1",2:"position 2" and so on.
