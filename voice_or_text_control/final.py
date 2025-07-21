@@ -97,7 +97,7 @@ while True:
             if name_of_preset is not None:
                 rbm.delete_preset(name_of_preset)
 
-    if 'delete_sequences' in movement_data and movement_data['deleted_sequences']:
+    if 'deleted_sequences' in movement_data and movement_data['deleted_sequences']:
         for name_of_sequence in movement_data['deleted_sequences'].values():
             if name_of_sequence is not None:
                 rbm.delete_sequence(name_of_sequence)
