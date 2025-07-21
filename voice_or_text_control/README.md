@@ -1,6 +1,9 @@
 #Voice/Text control
 Uses Whisper run locally to transcribe speech to text and Gemini to parse through the transcript to extract relevant data. Uses Phosphobot control API to actually control and move the robot. Can pick between controlling through speech or typed command
 
+Phosphobot - https://phospho.ai/
+Phosphobot documentation - https://docs.phospho.ai/
+
 #Requirements
 1) Initialize a virtual environment with Python 3.11.9 and install the dependencies
 2) Install Whisper from here: https://github.com/openai/whisper
