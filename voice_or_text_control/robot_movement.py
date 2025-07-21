@@ -38,6 +38,13 @@ if os.path.exists(PRESET_FILE):
 else:
     preset={}
 
+SEQUENCE_FILE='sequences.pkl'
+if os.path.exists(SEQUENCE_FILE):
+    with open(SEQUENCE_FILE,"rb") as f:
+        sequences=pickle.load(f)
+else:
+    sequences={}
+
 #Function to set and add new presets
 def create_new_preset(name:str, x, y, z, rx, ry, rz, gripper_pos:bool):
     if name in preset:
@@ -57,6 +64,15 @@ def create_new_preset(name:str, x, y, z, rx, ry, rz, gripper_pos:bool):
     with open(PRESET_FILE,"wb") as f:
         pickle.dump(preset,f)
 
+def create_new_sequences(name:str,data:dict):
+    if name in sequences:
+        print(f"[WARNING] Overwriting existing sequence '{name}'.")
+    sequences[name]=data
+    print(f"[INFO] Sequence '{name}' added.")
+
+    with open(SEQUENCE_FILE,"wb") as f:
+        pickle.dump(sequences,f)
+
 #Function to delete existing presets
 def delete_preset(name:str):
     if name in preset:
@@ -66,6 +82,15 @@ def delete_preset(name:str):
         print(f"[INFO] {name} was deleted")
     else:
         print(f"[WARNING] Preset {name} does not exist")
+
+def delete_sequence(name:str):
+    if name in sequences:
+        del sequences[name]
+        with open(SEQUENCE_FILE,"wb") as f:
+            pickle.dump(sequences,f)
+        print(f"[INFO] {name} was deleted")
+    else:
+        print(f"[WARNING] Sequence {name} does not exist")
 
 #Moving robot to preset positions
 def move_to_preset(name:str):
@@ -192,3 +217,55 @@ def adjustment_to_joint(joint_id:int, value_of_adjustment:int):
     joint_position_new=joint_positions_current.copy()
     joint_position_new[joint_id-1]+=value_of_adjustment
     return rotate_joints([(i+1,joint_position_new[i]) for i in range (6)])
+
+def initiate_sequence(name:str):
+    global last_written_angles
+    if name not in sequences:
+        print(f"[WARNING] Sequence {name} not found")
+        return 
+    
+    steps=sequences[name]
+    print(f"[INFO] Executing {name}")
+
+    for step_num in sorted(steps, key=lambda x:int(x)):
+        command=steps[step_num]
+
+        if "move_to" in command:
+            preset=command["move_to"]['preset']
+            print(f"[INFO] Executing {step_num} : Moving to preset {preset}")
+            move_to_preset(preset)
+            last_written_angles=read_joints()
+            time.sleep(3)
+
+        if "gripper" in command:
+            if command['gripper']:
+                print(f"[INFO] Executing {step_num} : Opening gripper")
+                gripper_open()
+            else:
+                print(f"[INFO] Executing {step_num} : Closing gripper")
+                gripper_close()
+            last_written_angles=read_joints()
+            time.sleep(3)
+
+        if "rotate_joint" in command:
+            id_of_joint=command['rotate_joint']['joint_id']
+            rotation_of_joint=command['rotate_joint']['rotation']
+            print(f"[INFO] Executing {step_num} : Rotating joint {id_of_joint} by {rotation_of_joint} degrees")
+            rotate_joints([(id_of_joint,rotation_of_joint)])
+            last_written_angles=read_joints()
+            time.sleep(3)
+
+        if 'move_end_effector' in command:
+            movememnt_data_dict=command['move_end_effector']
+            movement_api("absolute",movememnt_data_dict)
+            print(f"[INFO] Executing {step_num} : Moving end-effector to given coordinates")
+            last_written_angles=read_joints()
+            time.sleep(3)
+
+        if "adjust_by_joint" in command:
+            joint_id=command['adjust_by_joint']['joint_id']
+            adjustment=command['adjust_by_joint']['adjustment']
+            print(f"[INFO] Executing {step_num} : Adjusting joint {joint_id} by {adjustment} degrees")
+            adjustment_to_joint(joint_id,adjustment)
+            last_written_angles=read_joints()
+            time.sleep(3)
