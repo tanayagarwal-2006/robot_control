@@ -182,6 +182,12 @@ If only execute/initiate is given by the user, do NOT include the sequence name 
 For example - "Initiate sequence named sequence-1"
 Include the name "sequence-1" in the key "Execute sequence", leave key "Save sequence" empty.
 
+- Save current pose
+If the user says to save the current position, output the name of the pose given by the user in this key
+For example - If the user says to save current pose/position as pose-1, output in this form :
+{{"Save current pose":"pose-1"}}
+If this command is not called, return an empty dict under this key.
+
 - Pick and place from preset:
 If the user calls pick and place from one position to another, add them sequentially in this
 eg. 1:"position 1",2:"position 2" and so on.
