@@ -64,6 +64,19 @@ def create_new_preset(name:str, x, y, z, rx, ry, rz, gripper_pos:bool):
     with open(PRESET_FILE,"wb") as f:
         pickle.dump(preset,f)
 
+def save_current_pose_preset(name:str):
+    if name in preset:
+        print(f"[WARNING] Overwriting existing preset '{name}'.")
+    
+    joint_angles=read_joints()
+    preset[name]=joint_angles
+
+    with open(PRESET_FILE,"wb") as file:
+        pickle.dump(preset,file)
+
+    print(f"[INFO] Current pose saved as {name}")
+
+
 def create_new_sequences(name:str,data:dict):
     if name in sequences:
         print(f"[WARNING] Overwriting existing sequence '{name}'.")
@@ -94,11 +107,16 @@ def delete_sequence(name:str):
 
 #Moving robot to preset positions
 def move_to_preset(name:str):
-    if name in preset:
-        print(f"[INFO] Moving to {name}")
-        movement_api("absolute",preset[name])
-    elif name not in preset:
+    if name not in preset:
         print (f'[WARNING] {name} does not exist')
+    
+    data=preset[name]
+    print(f"[INFO] Moving to preset {name}")
+
+    if isinstance(data,dict):
+        movement_api("absolute",data)
+    elif isinstance(data,list):
+        rotate_joints([(i+1,data[i]) for i in range(6)])
     else:
         print(f"[ERROR] Unable to move to {name}")
 
