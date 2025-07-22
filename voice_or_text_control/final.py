@@ -236,6 +236,10 @@ while True:
         rbm.robot_init()
         break
 
+    if "Save current pose" in movement_data and movement_data["Save current pose"]:
+        name_of_pose_preset=movement_data["Save current pose"]
+        rbm.save_current_pose_preset(name_of_pose_preset)
+
     if "display presets" in transcript or "show presets" in transcript:
         with open("presets.pkl",'rb') as file:
             preset_positions=pickle.load(file)
