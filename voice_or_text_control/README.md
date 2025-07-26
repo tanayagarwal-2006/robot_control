@@ -41,3 +41,4 @@ Phosphobot documentation - https://docs.phospho.ai/
   - Save sequences
   - Execute sequences
   - delete sequences
+- Save current position as preset: the current position/orientation of the robot can be saved
